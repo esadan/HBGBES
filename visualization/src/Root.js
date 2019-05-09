@@ -6,6 +6,7 @@ import Controls from './structure/Controls'
 import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
+import { readLogCurveHeaders } from './scripts/LogDataRepository';
 
 const styles = theme => ({
   root: {
@@ -14,37 +15,44 @@ const styles = theme => ({
 });
 
 class Root extends React.Component {
-  state = {
-    panels: {
-      'S': {
-        min: 0,
-        max: 0,
-        x: false,
-        y: false,
-        color: false,
+  
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      headers: readLogCurveHeaders(),
+      panels: {
+        'S': {
+          min: 0,
+          max: 0,
+          x: false,
+          y: false,
+          color: false,
+        },
+        'T': {
+          min: 0,
+          max: 0,
+          x: false,
+          y: false,
+          color: false,
+        },
+        'U': {
+          min: 0,
+          max: 0,
+          x: false,
+          y: false,
+          color: false,
+        },
+        'V': {
+          min: 0,
+          max: 0,
+          x: false,
+          y: false,
+          color: false,
+        },
       },
-      'T': {
-        min: 0,
-        max: 0,
-        x: false,
-        y: false,
-        color: false,
-      },
-      'U': {
-        min: 0,
-        max: 0,
-        x: false,
-        y: false,
-        color: false,
-      },
-      'V': {
-        min: 0,
-        max: 0,
-        x: false,
-        y: false,
-        color: false,
-      },
-    },
+    }
   }
 
   handleFormChange = (name, paramName) => event => {
