@@ -50,7 +50,7 @@ class ControlPanel extends React.Component {
                   control={
                     <Checkbox
                       checked={panels[paramName].x}
-                      onChange={handleFormChange('x')}
+                      onChange={handleFormChange('x', paramName)}
                       value="x"
                     />
                   }
@@ -60,7 +60,7 @@ class ControlPanel extends React.Component {
                   control={
                     <Checkbox
                       checked={panels[paramName].y}
-                      onChange={handleFormChange('y')}
+                      onChange={handleFormChange('y', paramName)}
                       value="y"
                     />
                   }
@@ -70,7 +70,7 @@ class ControlPanel extends React.Component {
                   control={
                     <Checkbox
                       checked={panels[paramName].color}
-                      onChange={handleFormChange('color')}
+                      onChange={handleFormChange('color', paramName)}
                       value="color"
                     />
                   }

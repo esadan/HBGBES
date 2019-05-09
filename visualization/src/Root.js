@@ -47,8 +47,12 @@ class Root extends React.Component {
     },
   }
 
-  handleFormChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+  handleFormChange = (name, paramName) => event => {
+    const { panels } = { ...this.state };
+    const currentState = panels;
+    currentState[paramName][name] = event.target.checked ;
+
+    this.setState({ panels: currentState });
   };
 
   handleSliderChange = (name, paramName) => (event, value) => {
