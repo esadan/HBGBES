@@ -75,8 +75,6 @@ class Root extends React.Component {
     const { classes } = this.props;
     const { panels, headers } = this.state;
 
-    console.log(headers)
-
     return (
       <div className={classes.root}>
         <Grid container className={classes.root} spacing={0}>

@@ -40,6 +40,8 @@ function definePicoUniform(picoApp, name, properties) {
           get() { return values[key] },
           set(value) { 
               values[key] = value
+              if (key != 'time') { console.log(key, nameToIndex[key], value) }
+              if (!value) { return }
               picoUniformBuffer.set(nameToIndex[key], value).update() 
           }
       })
@@ -55,25 +57,20 @@ function setupPicoGL(canvas) {
     .clearColor(0, 0, 0, 1)
 
     const program = app.createProgram(vertShader(), fragShader())
-
     const data = app.createVertexBuffer(PicoGL.FLOAT, 4, readLogData())
-
     const vertices = app.createVertexArray()
     .vertexAttributeBuffer(0, data)
 
     let uniforms = definePicoUniform(app, "ConfigUniforms", {
         time: PicoGL.FLOAT,
-        smin0: PicoGL.FLOAT,
-        smin1: PicoGL.FLOAT,
-        smax0: PicoGL.FLOAT,
-        smax1: PicoGL.FLOAT,
-        remapTime0: PicoGL.FLOAT,
-        remapTime1: PicoGL.FLOAT
+        timerange: PicoGL.FLOAT_VEC2,
+        srange0: PicoGL.FLOAT_VEC2,
+        srange1: PicoGL.FLOAT_VEC2,
+        trange0: PicoGL.FLOAT_VEC2,
+        trange1: PicoGL.FLOAT_VEC2,
+        map0: PicoGL.FLOAT_VEC4,
+        map1: PicoGL.FLOAT_VEC4
     })
-      
-    uniforms.time = 0.0
-    uniforms.remapTime0 = 0.0
-    uniforms.remapTime1 = 0.0
 
     const drawCall = app
     .createDrawCall(program, vertices)
@@ -92,6 +89,15 @@ function setupPicoGL(canvas) {
     }
 }
 
+function panelsToUniforms(input, uniforms) {
+  uniforms.srange0 = uniforms.srange1
+  uniforms.trange0 = uniforms.trange1
+  uniforms.map0 = uniforms.map1
+
+  uniforms.srange1 = new Float32Array([input.S.min / 100, input.S.max / 100])
+  uniforms.trange1 = new Float32Array([input.T.min / 100, input.T.max / 100])
+}
+
 class Content extends React.Component {
   constructor(props) {
     super(props);
@@ -106,7 +112,7 @@ class Content extends React.Component {
 
   draw(time) {
     const { gpuUniforms, gpuDrawFunction } = this.state;
-    gpuUniforms.time = time / 1000;
+    //gpuUniforms.time = time / 1000;
     gpuDrawFunction();
     requestAnimationFrame(time => this.draw(time));
   }
@@ -126,10 +132,8 @@ class Content extends React.Component {
   render() {
     const { classes, panels } = this.props;
     const { gpuUniforms } = this.state;
-    gpuUniforms.smin0 = gpuUniforms.smin1
-    gpuUniforms.smin1 = panels.S.min
-    gpuUniforms.smax0 = gpuUniforms.smax1
-    gpuUniforms.smax1 = panels.S.max
+
+    panelsToUniforms(panels, gpuUniforms);
 
     return (
       <div className={classes.root}>
