@@ -40,6 +40,8 @@ class Controls extends React.Component {
       <div className={classes.root}>
         <ControlPanel paramName="S" expanded={expanded} handlePanelChange={this.handlePanelChange} />
         <ControlPanel paramName="T" expanded={expanded} handlePanelChange={this.handlePanelChange} />
+        <ControlPanel paramName="U" expanded={expanded} handlePanelChange={this.handlePanelChange} />
+        <ControlPanel paramName="V" expanded={expanded} handlePanelChange={this.handlePanelChange} />
       </div>
     );
   }
