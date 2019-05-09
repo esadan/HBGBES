@@ -15,8 +15,6 @@ const styles = theme => ({
 });
 
 class Root extends React.Component {
-  
-
   constructor(props) {
     super(props);
 

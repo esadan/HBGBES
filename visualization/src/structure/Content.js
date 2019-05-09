@@ -40,7 +40,6 @@ function definePicoUniform(picoApp, name, properties) {
           get() { return values[key] },
           set(value) { 
               values[key] = value
-              if (key != 'time') { console.log(key, nameToIndex[key], value) }
               if (!value) { return }
               picoUniformBuffer.set(nameToIndex[key], value).update() 
           }
@@ -68,8 +67,10 @@ function setupPicoGL(canvas) {
         srange1: PicoGL.FLOAT_VEC2,
         trange0: PicoGL.FLOAT_VEC2,
         trange1: PicoGL.FLOAT_VEC2,
-        map0: PicoGL.FLOAT_VEC4,
-        map1: PicoGL.FLOAT_VEC4
+        xweights0: PicoGL.FLOAT_VEC4,
+        xweights1: PicoGL.FLOAT_VEC4,
+        yweights0: PicoGL.FLOAT_VEC4,
+        yweights1: PicoGL.FLOAT_VEC4
     })
 
     const drawCall = app
@@ -92,10 +93,15 @@ function setupPicoGL(canvas) {
 function panelsToUniforms(input, uniforms) {
   uniforms.srange0 = uniforms.srange1
   uniforms.trange0 = uniforms.trange1
-  uniforms.map0 = uniforms.map1
+  uniforms.map0 = uniforms.map
+  uniforms.xweights0 = uniforms.xweights1
+  uniforms.yweights0 = uniforms.yweights1
 
   uniforms.srange1 = new Float32Array([input.S.min / 100, input.S.max / 100])
   uniforms.trange1 = new Float32Array([input.T.min / 100, input.T.max / 100])
+  let variables = [ input.S, input.T, input.U, input.V ]
+  uniforms.xweights1 = new Float32Array(variables.map(v => v.x ? 1.0 : 0.0))
+  uniforms.yweights1 = new Float32Array(variables.map(v => v.y ? 1.0 : 0.0))
 }
 
 class Content extends React.Component {
