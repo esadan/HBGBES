@@ -67,10 +67,16 @@ function setupPicoGL(canvas) {
         srange1: PicoGL.FLOAT_VEC2,
         trange0: PicoGL.FLOAT_VEC2,
         trange1: PicoGL.FLOAT_VEC2,
+        urange0: PicoGL.FLOAT_VEC2,
+        urange1: PicoGL.FLOAT_VEC2,
+        vrange0: PicoGL.FLOAT_VEC2,
+        vrange1: PicoGL.FLOAT_VEC2,
         xweights0: PicoGL.FLOAT_VEC4,
         xweights1: PicoGL.FLOAT_VEC4,
         yweights0: PicoGL.FLOAT_VEC4,
-        yweights1: PicoGL.FLOAT_VEC4
+        yweights1: PicoGL.FLOAT_VEC4,
+        cweights0: PicoGL.FLOAT_VEC4,
+        cweights1: PicoGL.FLOAT_VEC4
     })
 
     const drawCall = app
@@ -93,15 +99,21 @@ function setupPicoGL(canvas) {
 function panelsToUniforms(input, uniforms) {
   uniforms.srange0 = uniforms.srange1
   uniforms.trange0 = uniforms.trange1
+  uniforms.urange0 = uniforms.urange1
+  uniforms.vrange0 = uniforms.vrange1
   uniforms.map0 = uniforms.map
   uniforms.xweights0 = uniforms.xweights1
   uniforms.yweights0 = uniforms.yweights1
+  uniforms.cweights0 = uniforms.cweights1
 
   uniforms.srange1 = new Float32Array([input.S.min / 100, input.S.max / 100])
   uniforms.trange1 = new Float32Array([input.T.min / 100, input.T.max / 100])
+  uniforms.urange1 = new Float32Array([input.U.min / 100, input.U.max / 100])
+  uniforms.vrange1 = new Float32Array([input.V.min / 100, input.V.max / 100])
   let variables = [ input.S, input.T, input.U, input.V ]
   uniforms.xweights1 = new Float32Array(variables.map(v => v.x ? 1.0 : 0.0))
   uniforms.yweights1 = new Float32Array(variables.map(v => v.y ? 1.0 : 0.0))
+  uniforms.cweights1 = new Float32Array(variables.map(v => v.color ? 1.0 : 0.0))
 }
 
 class Content extends React.Component {
