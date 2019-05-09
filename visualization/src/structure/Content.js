@@ -86,8 +86,6 @@ void main() {
     gl_PointSize = 2.0;
 }`
 
-let globalTime = 0
-
 function setupPicoGL(canvas) {
     let app = PicoGL.createApp(canvas)
     .clearColor(0, 0, 0, 1)
