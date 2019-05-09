@@ -22,24 +22,9 @@ const styles = theme => ({
 });
 
 class ControlPanel extends React.Component {
-  state = {
-    x: true,
-    y: true,
-    color: true,
-    min: 0,
-    max: 0,
-  };
-
-  handleFormChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-
-  handleSliderChange = name => (event, value) => {
-    this.setState({ [name]: value });
-  };
 
   render() {
-    const { classes, expanded, handlePanelChange, paramName } = this.props;
+    const { classes, expanded, handlePanelChange, paramName, handleFormChange, handleSliderChange, panels } = this.props;
 
     return (
       <ExpansionPanel expanded={expanded === paramName} onChange={handlePanelChange(paramName)}>
@@ -50,22 +35,22 @@ class ControlPanel extends React.Component {
             <div className={classes.root}>
               <Slider
                 classes={{ container: classes.slider }}
-                value={this.state.min}
+                value={panels[paramName].min}
                 aria-labelledby="label"
-                onChange={this.handleSliderChange('min')}
+                onChange={handleSliderChange('min', paramName)}
               />
               <Slider
                 classes={{ container: classes.slider }}
-                value={this.state.max}
+                value={panels[paramName].max}
                 aria-labelledby="label"
-                onChange={this.handleSliderChange('max')}
+                onChange={handleSliderChange('max', paramName)}
               />
               <FormGroup row>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={this.state.x}
-                      onChange={this.handleFormChange('x')}
+                      checked={panels[paramName].x}
+                      onChange={handleFormChange('x')}
                       value="x"
                     />
                   }
@@ -74,8 +59,8 @@ class ControlPanel extends React.Component {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={this.state.y}
-                      onChange={this.handleFormChange('y')}
+                      checked={panels[paramName].y}
+                      onChange={handleFormChange('y')}
                       value="y"
                     />
                   }
@@ -84,8 +69,8 @@ class ControlPanel extends React.Component {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={this.state.color}
-                      onChange={this.handleFormChange('color')}
+                      checked={panels[paramName].color}
+                      onChange={handleFormChange('color')}
                       value="color"
                     />
                   }

@@ -33,15 +33,35 @@ class Controls extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, panels, handleFormChange, handleSliderChange } = this.props;
     const { expanded } = this.state;
 
     return (
       <div className={classes.root}>
-        <ControlPanel paramName="S" expanded={expanded} handlePanelChange={this.handlePanelChange} />
-        <ControlPanel paramName="T" expanded={expanded} handlePanelChange={this.handlePanelChange} />
-        <ControlPanel paramName="U" expanded={expanded} handlePanelChange={this.handlePanelChange} />
-        <ControlPanel paramName="V" expanded={expanded} handlePanelChange={this.handlePanelChange} />
+        <ControlPanel panels={panels} 
+                      paramName="S" 
+                      expanded={expanded} 
+                      handlePanelChange={this.handlePanelChange} 
+                      handleFormChange={handleFormChange} 
+                      handleSliderChange={handleSliderChange} />
+        <ControlPanel panels={panels} 
+                      paramName="T" 
+                      expanded={expanded} 
+                      handlePanelChange={this.handlePanelChange} 
+                      handleFormChange={handleFormChange} 
+                      handleSliderChange={handleSliderChange} />
+        <ControlPanel panels={panels} 
+                      paramName="U" 
+                      expanded={expanded} 
+                      handlePanelChange={this.handlePanelChange}
+                      handleFormChange={handleFormChange} 
+                      handleSliderChange={handleSliderChange} />
+        <ControlPanel panels={panels} 
+                      paramName="V" 
+                      expanded={expanded} 
+                      handlePanelChange={this.handlePanelChange} 
+                      handleFormChange={handleFormChange} 
+                      handleSliderChange={handleSliderChange} />
       </div>
     );
   }

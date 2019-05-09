@@ -14,18 +14,64 @@ const styles = theme => ({
 });
 
 class Root extends React.Component {
+  state = {
+    panels: {
+      'S': {
+        min: 0,
+        max: 0,
+        x: false,
+        y: false,
+        color: false,
+      },
+      'T': {
+        min: 0,
+        max: 0,
+        x: false,
+        y: false,
+        color: false,
+      },
+      'U': {
+        min: 0,
+        max: 0,
+        x: false,
+        y: false,
+        color: false,
+      },
+      'V': {
+        min: 0,
+        max: 0,
+        x: false,
+        y: false,
+        color: false,
+      },
+    },
+  }
+
+  handleFormChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleSliderChange = (name, paramName) => (event, value) => {
+    const { panels } = { ...this.state };
+    const currentState = panels;
+    currentState[paramName][name] = value;
+
+    this.setState({ panels: currentState });
+  };
+
   render() {
     const { classes } = this.props;
+    const { panels } = this.state;
 
     return (
       <div className={classes.root}>
         <Grid container className={classes.root} spacing={0}>
           <TopBar />
           <Grid item xs={12} sm={3}>
-            <Controls />
+            <Controls panels={panels} handleFormChange={this.handleFormChange} handleSliderChange={this.handleSliderChange} />
           </Grid>
           <Grid item xs={12} sm={9}>
-            <Content />
+            <Content panels={panels} />
           </Grid>
         </Grid>
       </div>
