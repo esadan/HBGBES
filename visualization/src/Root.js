@@ -73,7 +73,9 @@ class Root extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { panels } = this.state;
+    const { panels, headers } = this.state;
+
+    console.log(headers)
 
     return (
       <div className={classes.root}>
