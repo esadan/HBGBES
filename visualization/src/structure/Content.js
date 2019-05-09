@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import PicoGL from 'picogl';
 
 import readLogData from '../scripts/LogDataRepository';
+import { vertShader, fragShader } from '../shaders/shaders.js';
 
 const styles = theme => ({
     root: {
@@ -49,52 +50,11 @@ function definePicoUniform(picoApp, name, properties) {
   return result
 }
 
-let frag = `#version 300 es
-precision highp float;
- 
-uniform sampler2D tex;
-in vec3 vColor;
- 
-out vec4 fragColor;
-void main() {
-    fragColor = vec4(vColor, 1.0); //vec4(vColor, 1.0);
-}`
-
-let vert = `#version 300 es
-
-layout(std140) uniform;
-
-layout(location=0) in vec4 a;
-
-uniform ConfigUniforms {
-    float time;
-    float remapTime0;
-    float remapTime1;
-};
-
-out vec3 vColor;
-
-void main() {
-    vec4 p0 = vec4(2.0 * a.y - 1.0, 2.0 * a.x - 1.0, 0.0, 1.0);
-    vec4 p1 = vec4(2.0 * a.z - 1.0, 2.0 * a.w - 1.0, 0.0, 1.0);
-    
-    float t = 0.5 + sin(time) / 2.0;
-    // float s = smoothstep(remapTime0, remapTime1, time);
-    vColor = vec3(a.x, a.y, a.z);
-
-    gl_Position = mix(p0, p1, t);
-    gl_PointSize = 2.0;
-}`
-
-let globalTime = 0
-
 function setupPicoGL(canvas) {
     let app = PicoGL.createApp(canvas)
     .clearColor(0, 0, 0, 1)
 
-    //const vert = require('../shaders/remap.vert.glsl')
-    //const frag = require('../shaders/remap.frag.glsl')
-    const program = app.createProgram(vert, frag)
+    const program = app.createProgram(vertShader(), fragShader())
 
     const data = app.createVertexBuffer(PicoGL.FLOAT, 4, readLogData())
 
