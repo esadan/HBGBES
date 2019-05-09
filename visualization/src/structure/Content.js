@@ -63,6 +63,10 @@ function setupPicoGL(canvas) {
 
     let uniforms = definePicoUniform(app, "ConfigUniforms", {
         time: PicoGL.FLOAT,
+        smin0: PicoGL.FLOAT,
+        smin1: PicoGL.FLOAT,
+        smax0: PicoGL.FLOAT,
+        smax1: PicoGL.FLOAT,
         remapTime0: PicoGL.FLOAT,
         remapTime1: PicoGL.FLOAT
     })
@@ -120,7 +124,12 @@ class Content extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, panels } = this.props;
+    const { gpuUniforms } = this.state;
+    gpuUniforms.smin0 = gpuUniforms.smin1
+    gpuUniforms.smin1 = panels.S.min
+    gpuUniforms.smax0 = gpuUniforms.smax1
+    gpuUniforms.smax1 = panels.S.max
 
     return (
       <div className={classes.root}>

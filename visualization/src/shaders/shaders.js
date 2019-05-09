@@ -7,6 +7,10 @@ layout(location=0) in vec4 a;
 
 uniform ConfigUniforms {
     float time;
+    float smin0;
+    float smin1;
+    float smax0;
+    float smax1;
     float remapTime0;
     float remapTime1;
 };
@@ -20,7 +24,7 @@ void main() {
     //float s = 0.5 + sin(time / 1900.0) / 2.0;
     float s = smoothstep(remapTime0, remapTime1, time);
     s = sin(time);
-    vColor = vec3(a.x, a.y, a.z);
+    vColor = vec3(smin1, smin1, smin1) / 100.0;
 
     gl_Position = mix(p0, p1, s);
     gl_PointSize = 2.0;
