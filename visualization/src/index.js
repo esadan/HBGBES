@@ -12,15 +12,15 @@ import Root from './Root';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            light: '#718792',
-            main: '#455a64',
-            dark: '#1c313a',
+            light: '#7a7cff',
+            main: '#304ffe',
+            dark: '#0026ca',
             contrastText: '#fff',
         },
         secondary: {
-            light: '#ffa040',
-            main: '#ff6f00',
-            dark: '#c43e00',
+            light: '#5efc82',
+            main: '#00c853',
+            dark: '#009624',
             contrastText: '#000',
         },
     },

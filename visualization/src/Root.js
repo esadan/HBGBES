@@ -1,29 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TopBar from './structure/TopBar'
+import Content from './structure/Content'
+import Controls from './structure/Controls'
 import { withStyles } from '@material-ui/core/styles';
 
+import Grid from '@material-ui/core/Grid';
+
 const styles = theme => ({
-  
+  root: {
+    
+  },
 });
 
 class Root extends React.Component {
-  state = {
-    someState: 1,
-  };
-
   render() {
     const { classes } = this.props;
 
-
-    const internalVariable = (
-      <div>Some internal variable</div>
-    );
-
     return (
       <div className={classes.root}>
-        <TopBar />
-        {internalVariable}
+        <Grid container className={classes.root} spacing={0}>
+          <TopBar />
+          <Grid item xs={12} sm={3}>
+            <Controls />
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <Content />
+          </Grid>
+        </Grid>
       </div>
     );
   }
