@@ -2,28 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import Slider from '@material-ui/lab/Slider';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Slider from '@material-ui/lab/Slider';
 
 const styles = theme => ({
-  
+  slider: {
+    padding: '22px 0px',
+  },
+  root: {
+    width: 300,
+  },
 });
 
 class ControlPanel extends React.Component {
   state = {
-    value: 50,
+    x: true,
+    y: true,
+    color: true,
+    min: 0,
+    max: 0,
   };
 
-  aStandardFunction = () => {
-    this.setState({ someState: null });
+  handleFormChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleSliderChange = name => (event, value) => {
+    this.setState({ [name]: value });
   };
 
   render() {
-    const { value } = this.state;
     const { classes, expanded, handlePanelChange, paramName } = this.props;
 
     return (
@@ -32,12 +47,52 @@ class ControlPanel extends React.Component {
             <Typography className={classes.heading}>{paramName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Slider
-              classes={{ container: classes.slider }}
-              value={value}
-              aria-labelledby="label"
-              onChange={this.handleValueChange}
-            />
+            <div className={classes.root}>
+              <Slider
+                classes={{ container: classes.slider }}
+                value={this.state.min}
+                aria-labelledby="label"
+                onChange={this.handleSliderChange('min')}
+              />
+              <Slider
+                classes={{ container: classes.slider }}
+                value={this.state.max}
+                aria-labelledby="label"
+                onChange={this.handleSliderChange('max')}
+              />
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.x}
+                      onChange={this.handleFormChange('x')}
+                      value="x"
+                    />
+                  }
+                  label="X"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.y}
+                      onChange={this.handleFormChange('y')}
+                      value="y"
+                    />
+                  }
+                  label="Y"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.color}
+                      onChange={this.handleFormChange('color')}
+                      value="color"
+                    />
+                  }
+                  label="Color"
+                />
+              </FormGroup>
+            </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
     );
