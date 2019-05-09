@@ -2,28 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
+import ControlPanel from './ControlPanel'
+
 
 const styles = theme => ({
   root: {
     marginRight: theme.spacing.unit,
     marginTop: theme.spacing.unit,
   },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
   },
 });
 
 class Controls extends React.Component {
+  state = {
+    expanded: null,
+  };
+
+  handleValueChange = (event, value) => {
+    this.setState({ value });
+  };
+
+  handlePanelChange = panel => (event, expanded) => {
+    this.setState({
+      expanded: expanded ? panel : false,
+    });
+  };
 
   render() {
     const { classes } = this.props;
+    const { expanded } = this.state;
 
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>Controls</Paper>
+        <ControlPanel paramName="S" expanded={expanded} handlePanelChange={this.handlePanelChange} />
+        <ControlPanel paramName="T" expanded={expanded} handlePanelChange={this.handlePanelChange} />
       </div>
     );
   }
