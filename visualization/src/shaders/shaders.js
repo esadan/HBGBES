@@ -33,6 +33,11 @@ void main() {
     float u = (2.0 * (a.z - urange1.x) / (urange1.y - urange1.x)) - 1.0;
     float v = (2.0 * (a.w - vrange1.x) / (vrange1.y - vrange1.x)) - 1.0;
     
+    vColor = vec3(
+        step(urange1.x, a.z) - step(urange1.y, a.z),
+        step(vrange1.x, a.w) - step(vrange1.y, a.z),
+        1.0);
+
     vec4 values = vec4(s, t, u, v);
 
     vec3 xyc0 = vec3(
@@ -46,10 +51,8 @@ void main() {
         dot(cweights1, values)
     );
 
-    quiltCoord = vec2(s, t);
+    quiltCoord = vec2(a.x, a.y);
     
-    vColor = vec3(1.0, 1.0, 1.0);
-
     float timescale = smoothstep(timerange.x, timerange.y, time);
     vec3 xyc = mix(xyc0, xyc1, timescale);
     gl_Position = vec4(xyc.x, xyc.y, 0.0, 1.0);
@@ -60,7 +63,7 @@ void main() {
 export function fragShader() { return `
 #version 300 es
 precision highp float;
- 
+
 uniform sampler2D quilt;
 
 in vec3 vColor;
@@ -71,7 +74,7 @@ void main() {
     vec2 diff = gl_PointCoord - vec2(.5, .5);
     vec2 textureCoord = quiltCoord + gl_PointCoord / 100.0;
     vec4 q = texture(quilt, textureCoord);
-
-    fragColor = vec4(q.rgb, 1.0); //vec4(vColor, 1.0);
+    float highlight = 1.0;
+    fragColor = vec4(q.rgb * vColor.rgb, 1.0); //vec4(vColor, 1.0);
 }
 `.trim()}
