@@ -130,7 +130,7 @@ class Content extends React.Component {
 
   draw(time) {
     const { gpuUniforms, gpuDrawFunction } = this.state;
-    //gpuUniforms.time = time / 1000;
+    gpuUniforms.time = time / 1000;
     gpuDrawFunction();
     requestAnimationFrame(time => this.draw(time));
   }
