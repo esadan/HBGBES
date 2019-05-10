@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import ControlPanel from './ControlPanel'
+import Button from '@material-ui/core/Button';
 
 
 const styles = theme => ({
@@ -15,6 +16,9 @@ const styles = theme => ({
     flexBasis: '33.33%',
     flexShrink: 0,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class Controls extends React.Component {
@@ -24,10 +28,16 @@ class Controls extends React.Component {
   };
 
   render() {
-    const { classes, panels, handleFormChange, handleSliderChange } = this.props;
+    const { classes, panels, handleFormChange, handleSliderChange, handleRealChange, handleLatentChange } = this.props;
 
     return (
       <div className={classes.root}>
+      <Button onClick={handleRealChange()} variant="contained" color="secondary" className={classes.button}>
+        Real Space
+      </Button>
+      <Button onClick={handleLatentChange()} variant="contained" color="secondary" className={classes.button}>
+        Latent Space
+      </Button>
         <ControlPanel panels={panels} 
                       paramName="S" 
                       handleFormChange={handleFormChange} 

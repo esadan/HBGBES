@@ -55,20 +55,55 @@ class Root extends React.Component {
     }
   }
 
+  handleLatentChange = () => event => {
+    const { panels } = { ...this.state };
+    const currentState = panels;
+
+    if(currentState['U']['y'] !== true && currentState['V']['x'] !== true){
+      currentState['U']['y'] = true ;
+      currentState[this.state.currentYname]['y'] = false
+      this.setState({ currentYname: 'U' });
+
+      currentState['V']['x'] = true ;
+      currentState[this.state.currentXname]['x'] = false
+      this.setState({ currentXname: 'V' });
+
+      this.setState({ panels: currentState });
+    }
+  }
+  handleRealChange = () => event => {
+    const { panels } = { ...this.state };
+    const currentState = panels;
+
+    if(currentState['S']['y'] !== true && currentState['T']['x'] !== true){
+      currentState['S']['y'] = true ;
+      currentState[this.state.currentYname]['y'] = false
+      this.setState({ currentYname: 'S' });
+
+      currentState['T']['x'] = true ;
+      currentState[this.state.currentXname]['x'] = false
+      this.setState({ currentXname: 'T' });
+
+      this.setState({ panels: currentState });
+    }
+  }
+
   handleFormChange = (name, paramName) => event => {
     const { panels } = { ...this.state };
     const currentState = panels;
-    currentState[paramName][name] = event.target.checked ;
-    if(name === 'x'){ 
-      currentState[this.state.currentXname][name] = false 
-      this.setState({ currentXname: paramName });
-    }
-    if(name === 'y'){ 
-      currentState[this.state.currentYname][name] = false 
-      this.setState({ currentYname: paramName });
-    }
+    if(currentState[paramName][name] === false) {
+      currentState[paramName][name] = event.target.checked ;
+      if(name === 'x'){ 
+        currentState[this.state.currentXname][name] = false 
+        this.setState({ currentXname: paramName });
+      }
+      if(name === 'y'){ 
+        currentState[this.state.currentYname][name] = false 
+        this.setState({ currentYname: paramName });
+      }
 
-    this.setState({ panels: currentState });
+      this.setState({ panels: currentState });
+    }
   };
 
   handleSliderChange = (name, paramName) => (event, value) => {
@@ -88,7 +123,11 @@ class Root extends React.Component {
         <Grid container className={classes.root} spacing={0}>
           <TopBar />
           <Grid item xs={12} sm={3}>
-            <Controls panels={panels} handleFormChange={this.handleFormChange} handleSliderChange={this.handleSliderChange} />
+            <Controls panels={panels} 
+                      handleRealChange={this.handleRealChange}
+                      handleLatentChange={this.handleLatentChange}
+                      handleFormChange={this.handleFormChange} 
+                      handleSliderChange={this.handleSliderChange} />
           </Grid>
           <Grid item xs={12} sm={9}>
             <Content panels={panels} />
