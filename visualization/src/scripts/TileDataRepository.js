@@ -19,5 +19,4 @@ export default function readTileData() {
     data = data.map(row => row.map((v, i) => (v - min[i]) / (max[i] - min[i])))
 
     return new Float32Array(data.flat());
-
 }
