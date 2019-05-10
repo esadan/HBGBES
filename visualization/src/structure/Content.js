@@ -51,6 +51,16 @@ function definePicoUniform(picoApp, name, properties) {
   return result
 }
 
+function bindImageToPicoDrawCall(picoApp, picoDrawCall, name, url) {
+    const image = new Image()
+    image.onload = function() {
+        const texture = picoApp.createTexture2D(image, { flipY: true })
+        picoDrawCall.texture(name, texture)
+        picoDrawCall.hold = false
+    }
+    image.src = url
+}
+
 function setupPicoGL(canvas) {
     let app = PicoGL.createApp(canvas)
     .clearColor(0, 0, 0, 1)
@@ -83,11 +93,16 @@ function setupPicoGL(canvas) {
     .createDrawCall(program, vertices)
     .primitive(PicoGL.POINTS)
 
+    drawCall.hold = true
+    
     uniforms.bindToPicoDrawCall(drawCall)
+    bindImageToPicoDrawCall(app, drawCall, 'quilt', './quilt.png')
 
     function drawFunction() {
         app.clear();
-        drawCall.draw();
+        if (!drawCall.hold) {
+            drawCall.draw();
+        }
     }
 
     return {

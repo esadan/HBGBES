@@ -25,6 +25,7 @@ uniform ConfigUniforms {
 };
 
 out vec3 vColor;
+out vec2 quiltCoord;
 
 void main() {
     float s = (2.0 * (a.x - srange1.x) / (srange1.y - srange1.x)) - 1.0;
@@ -37,6 +38,8 @@ void main() {
     float y = dot(yweights1, values);
     float c = dot(cweights1, values);
 
+    quiltCoord = vec2(s, t);
+
     vec4 p0 = vec4(x, y, 0.0, 1.0);
     vec4 p1 = vec4(x, y, 0.0, 1.0);
     
@@ -46,7 +49,7 @@ void main() {
     vColor = vec3(1.0, 1.0, 1.0);
 
     gl_Position = mix(p0, p1, s);
-    gl_PointSize = 2.0;
+    gl_PointSize = 20.0;
 }
 `.trim()}
 
@@ -54,15 +57,17 @@ export function fragShader() { return `
 #version 300 es
 precision highp float;
  
-uniform sampler2D tex;
+uniform sampler2D quilt;
+
 in vec3 vColor;
+in vec2 quiltCoord;
  
 out vec4 fragColor;
 void main() {
     vec2 diff = gl_PointCoord - vec2(.5, .5);
-    if (length(diff) > 0.5) { 
-        discard;
-    }
-    fragColor = vec4(vColor, 1.0); //vec4(vColor, 1.0);
+    vec2 textureCoord = quiltCoord + gl_PointCoord / 100.0;
+    vec4 q = texture(quilt, textureCoord);
+
+    fragColor = vec4(q.rgb, 1.0); //vec4(vColor, 1.0);
 }
 `.trim()}
