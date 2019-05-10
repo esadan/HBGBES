@@ -1,4 +1,4 @@
-let file = require('../data/tiles_latent.json')
+let file = require('../inputs/tiles_latent.json')
 
 let ids = file.id
 let lxs = file.latent_x

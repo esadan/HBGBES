@@ -1,4 +1,4 @@
-let file = require('../data/log.json')
+let file = require('../inputs/log.json')
 
 let selection = [0, 1, 4, 5]
 let data = file[0].data

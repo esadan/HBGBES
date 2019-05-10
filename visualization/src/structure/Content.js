@@ -123,6 +123,7 @@ function panelsToUniforms(input, uniforms) {
   uniforms.xweights0 = uniforms.xweights1
   uniforms.yweights0 = uniforms.yweights1
   uniforms.cweights0 = uniforms.cweights1
+  uniforms.timerange = new Float32Array([uniforms.time, uniforms.time + 2])
 
   uniforms.srange1 = new Float32Array([input.S.min / 100, input.S.max / 100])
   uniforms.trange1 = new Float32Array([input.T.min / 100, input.T.max / 100])
