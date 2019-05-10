@@ -32,12 +32,6 @@ class Controls extends React.Component {
 
     return (
       <div className={classes.root}>
-      <Button onClick={handleRealChange()} variant="contained" color="secondary" className={classes.button}>
-        Real Space
-      </Button>
-      <Button onClick={handleLatentChange()} variant="contained" color="secondary" className={classes.button}>
-        Latent Space
-      </Button>
         <ControlPanel panels={panels} 
                       paramName="S" 
                       handleFormChange={handleFormChange} 
@@ -54,6 +48,12 @@ class Controls extends React.Component {
                       paramName="V" 
                       handleFormChange={handleFormChange} 
                       handleSliderChange={handleSliderChange} />
+        <Button onClick={handleRealChange()} variant="contained" color="secondary" className={classes.button}>
+          Real Space
+        </Button>
+        <Button onClick={handleLatentChange()} variant="contained" color="secondary" className={classes.button}>
+          Latent Space
+        </Button>
       </div>
     );
   }
