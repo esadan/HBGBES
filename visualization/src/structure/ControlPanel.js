@@ -27,59 +27,52 @@ class ControlPanel extends React.Component {
     const { classes, expanded, handlePanelChange, paramName, handleFormChange, handleSliderChange, panels } = this.props;
 
     return (
-      <ExpansionPanel expanded={expanded === paramName} onChange={handlePanelChange(paramName)}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{paramName}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <div className={classes.root}>
-              <Slider
-                classes={{ container: classes.slider }}
-                value={panels[paramName].min}
-                aria-labelledby="label"
-                onChange={handleSliderChange('min', paramName)}
+      <div className={classes.root}>
+        <Slider
+          classes={{ container: classes.slider }}
+          value={panels[paramName].min}
+          aria-labelledby="label"
+          onChange={handleSliderChange('min', paramName)}
+        />
+        <Slider
+          classes={{ container: classes.slider }}
+          value={panels[paramName].max}
+          aria-labelledby="label"
+          onChange={handleSliderChange('max', paramName)}
+        />
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={panels[paramName].x}
+                onChange={handleFormChange('x', paramName)}
+                value="x"
               />
-              <Slider
-                classes={{ container: classes.slider }}
-                value={panels[paramName].max}
-                aria-labelledby="label"
-                onChange={handleSliderChange('max', paramName)}
+            }
+            label="X"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={panels[paramName].y}
+                onChange={handleFormChange('y', paramName)}
+                value="y"
               />
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={panels[paramName].x}
-                      onChange={handleFormChange('x', paramName)}
-                      value="x"
-                    />
-                  }
-                  label="X"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={panels[paramName].y}
-                      onChange={handleFormChange('y', paramName)}
-                      value="y"
-                    />
-                  }
-                  label="Y"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={panels[paramName].color}
-                      onChange={handleFormChange('color', paramName)}
-                      value="color"
-                    />
-                  }
-                  label="Color"
-                />
-              </FormGroup>
-            </div>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+            }
+            label="Y"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={panels[paramName].color}
+                onChange={handleFormChange('color', paramName)}
+                value="color"
+              />
+            }
+            label="Color"
+          />
+        </FormGroup>
+      </div>
     );
   }
 }

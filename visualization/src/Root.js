@@ -20,6 +20,8 @@ class Root extends React.Component {
 
     this.state = {
       headers: readLogCurveHeaders(),
+      currentXname: 'T',
+      currentYname: 'S',
       panels: {
         'S': {
           min: 0,
@@ -57,6 +59,14 @@ class Root extends React.Component {
     const { panels } = { ...this.state };
     const currentState = panels;
     currentState[paramName][name] = event.target.checked ;
+    if(name === 'x'){ 
+      currentState[this.state.currentXname][name] = false 
+      this.setState({ currentXname: paramName });
+    }
+    if(name === 'y'){ 
+      currentState[this.state.currentYname][name] = false 
+      this.setState({ currentYname: paramName });
+    }
 
     this.setState({ panels: currentState });
   };
