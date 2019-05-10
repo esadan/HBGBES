@@ -34,21 +34,25 @@ void main() {
     float v = (2.0 * (a.w - vrange1.x) / (vrange1.y - vrange1.x)) - 1.0;
     
     vec4 values = vec4(s, t, u, v);
-    float x = dot(xweights1, values);
-    float y = dot(yweights1, values);
-    float c = dot(cweights1, values);
+
+    vec3 xyc0 = vec3(
+        dot(xweights0, values),
+        dot(yweights0, values),
+        dot(cweights0, values)
+    );
+    vec3 xyc1 = vec3(
+        dot(xweights1, values),
+        dot(yweights1, values),
+        dot(cweights1, values)
+    );
 
     quiltCoord = vec2(s, t);
-
-    vec4 p0 = vec4(x, y, 0.0, 1.0);
-    vec4 p1 = vec4(x, y, 0.0, 1.0);
     
-    //float s = 0.5 + sin(time / 1900.0) / 2.0;
-    //float s = smoothstep(remapTime0, remapTime1, time);
-    s = sin(time);
     vColor = vec3(1.0, 1.0, 1.0);
 
-    gl_Position = mix(p0, p1, s);
+    float timescale = smoothstep(timerange.x, timerange.y, time);
+    vec3 xyc = mix(xyc0, xyc1, timescale);
+    gl_Position = vec4(xyc.x, xyc.y, 0.0, 1.0);
     gl_PointSize = 20.0;
 }
 `.trim()}
