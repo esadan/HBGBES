@@ -7,6 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import PicoGL from 'picogl';
 
 import readLogData from '../scripts/LogDataRepository';
+import readTileData from '../scripts/TileDataRepository';
+
 import { vertShader, fragShader } from '../shaders/shaders.js';
 
 const styles = theme => ({
@@ -66,7 +68,8 @@ function setupPicoGL(canvas) {
     .clearColor(0, 0, 0, 1)
 
     const program = app.createProgram(vertShader(), fragShader())
-    const data = app.createVertexBuffer(PicoGL.FLOAT, 4, readLogData())
+    //const data = app.createVertexBuffer(PicoGL.FLOAT, 4, readLogData())
+    const data = app.createVertexBuffer(PicoGL.FLOAT, 4, readTileData())
     const vertices = app.createVertexArray()
     .vertexAttributeBuffer(0, data)
 
